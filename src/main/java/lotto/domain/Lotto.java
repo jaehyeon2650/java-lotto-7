@@ -1,4 +1,4 @@
-package lotto;
+package lotto.domain;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +12,10 @@ public class Lotto {
     public Lotto(List<Integer> numbers) {
         Validator.validate(numbers);
         this.numbers = numbers;
+    }
+
+    public boolean hasNumber(int number) {
+        return numbers.contains(number);
     }
 
     private static class Validator {
