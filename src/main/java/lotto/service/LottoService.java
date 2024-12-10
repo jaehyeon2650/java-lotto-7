@@ -1,5 +1,7 @@
 package lotto.service;
 
+import static lotto.constant.LottoConstant.LOTTO_PRICE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ public class LottoService {
         LottoAnswer lottoAnswer = new LottoAnswer(lotto, new BonusNumber(bonusNumber));
         Map<Result, Integer> result = lottoAnswer.lottoResult(butLottos);
         int money = calculateMoney(result);
-        int purchase = 1000 * butLottos.count();
+        int purchase = LOTTO_PRICE.getNumber() * butLottos.count();
         double rate = (double) money * 100 / purchase;
         return ResultDto.of(result, money, rate);
     }

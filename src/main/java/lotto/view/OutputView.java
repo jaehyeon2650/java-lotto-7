@@ -1,5 +1,11 @@
 package lotto.view;
 
+import static lotto.domain.Result.FIFTH;
+import static lotto.domain.Result.FIRST;
+import static lotto.domain.Result.FOURTH;
+import static lotto.domain.Result.SECOND;
+import static lotto.domain.Result.THIRD;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +15,14 @@ import lotto.dto.LottosDto.LottoDto;
 import lotto.dto.ResultDto;
 
 public class OutputView {
+    private static final String LOTTO_RESULT_WITHOUT_BONUS = "%d개 일치 (%,d원) - %d개\n";
+    private static final String LOTTO_RESULT_WITH_BONUS = "%d개 일치, 보너스 볼 일치 (%,d원) - %d개\n";
+    private static final String BENEFIT_RESULT = "총 수익률은 %.1f%%입니다.";
+    private static final String DELIMITER = ", ";
+    private static final String LINE = "---";
+    private static final String OPEN = "[";
+    private static final String CLOSED = "]";
+
     public void printError(String error) {
         System.out.println(error);
     }
@@ -21,28 +35,34 @@ public class OutputView {
 
     public void printResult(ResultDto resultDto) {
         System.out.println("당첨 통계");
-        System.out.println("---");
+        System.out.println(LINE);
         Map<Result, Integer> result = resultDto.result();
-        System.out.printf("%d개 일치 (%,d원) - %d개\n", Result.FIFTH.getMatchedCount(), Result.FIFTH.getMoney(),
-                result.getOrDefault(Result.FIFTH, 0));
-        System.out.printf(
-                "%d개 일치 (%,d원) - %d개", Result.FOURTH.getMatchedCount(), Result.FOURTH.getMoney(),
-                result.getOrDefault(Result.FOURTH, 0));
-        System.out.printf("%d개 일치 (%,d원) - %d개\n", Result.THIRD.getMatchedCount(), Result.THIRD.getMoney(),
-                result.getOrDefault(Result.THIRD, 0));
-        System.out.printf(
-                "%d개 일치, 보너스 볼 일치 (%,d원) - %d개\n", Result.SECOND.getMatchedCount(),
-                Result.SECOND.getMoney(),
-                result.getOrDefault(Result.SECOND, 0));
-        System.out.printf("%d개 일치 (%,d원) - %d개\n", Result.FIRST.getMatchedCount(), Result.FIRST.getMoney(),
-                result.getOrDefault(Result.FIRST, 0));
-        System.out.printf("총 수익률은 %.1f%%입니다.", resultDto.rate());
+        showLottoResult(result);
+        System.out.printf(BENEFIT_RESULT, resultDto.rate());
+    }
+
+    private void showLottoResult(Map<Result, Integer> result) {
+        printResult(FIFTH, result);
+        printResult(FOURTH, result);
+        printResult(THIRD, result);
+        printResult(SECOND, result);
+        printResult(FIRST, result);
+    }
+
+    private void printResult(Result result, Map<Result, Integer> results) {
+        if (result.isBonus()) {
+            System.out.printf(LOTTO_RESULT_WITH_BONUS, result.getMatchedCount(), result.getMoney(),
+                    results.getOrDefault(result, 0));
+            return;
+        }
+        System.out.printf(LOTTO_RESULT_WITHOUT_BONUS, result.getMatchedCount(), result.getMoney(),
+                results.getOrDefault(result, 0));
     }
 
     private void printLotto(LottoDto lottoDto) {
-        System.out.print("[");
-        String lotto = lottoDto.numbers().stream().map(String::valueOf).collect(Collectors.joining(", "));
+        System.out.print(OPEN);
+        String lotto = lottoDto.numbers().stream().map(String::valueOf).collect(Collectors.joining(DELIMITER));
         System.out.print(lotto);
-        System.out.println("]");
+        System.out.println(CLOSED);
     }
 }

@@ -1,5 +1,7 @@
 package lotto.utils;
 
+import static lotto.constant.LottoConstant.LOTTO_PRICE;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -7,16 +9,18 @@ import lotto.exception.ErrorMessage;
 import lotto.exception.LottoException;
 
 public class Parser {
+    private static final String DELIMITER = ",";
+
     public static int getCount(String input) {
         Validator.validateIntegerType(input);
         int money = Integer.parseInt(input);
         Validator.validateMoneyUnit(money);
-        return money / 1000;
+        return money / LOTTO_PRICE.getNumber();
     }
 
     public static List<Integer> getNumbers(String input) {
         Validator.validateNumbers(input);
-        return Arrays.stream(input.split(",")).map(word -> {
+        return Arrays.stream(input.split(DELIMITER)).map(word -> {
             word = word.trim();
             return Integer.parseInt(word);
         }).toList();
@@ -28,7 +32,6 @@ public class Parser {
     }
 
     private static class Validator {
-
         private static final String EXPRESSION = "\\s*\\d+\\s*([,]\\s*\\d+\\s*)*";
 
         public static void validateIntegerType(String money) {
@@ -38,7 +41,7 @@ public class Parser {
         }
 
         public static void validateMoneyUnit(int money) {
-            if (money < 0 || money % 1000 != 0 || money / 1000 == 0) {
+            if (money < 0 || money % LOTTO_PRICE.getNumber() != 0 || money / LOTTO_PRICE.getNumber() == 0) {
                 throw LottoException.from(ErrorMessage.INVALID_MONEY_UNIT);
             }
         }

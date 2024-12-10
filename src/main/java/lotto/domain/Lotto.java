@@ -1,5 +1,9 @@
 package lotto.domain;
 
+import static lotto.constant.LottoConstant.LOTTO_SIZE;
+import static lotto.constant.LottoConstant.MAX_NUMBER;
+import static lotto.constant.LottoConstant.MIN_NUMBER;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -36,14 +40,14 @@ public class Lotto {
         }
 
         private static void validateSize(List<Integer> numbers) {
-            if (numbers.size() != 6) {
+            if (numbers.size() != LOTTO_SIZE.getNumber()) {
                 throw LottoException.from(ErrorMessage.INVALID_LOTTO_SIZE);
             }
         }
 
         private static void validateRange(List<Integer> numbers) {
             numbers.forEach(number -> {
-                if (number < 1 || number > 45) {
+                if (number < MIN_NUMBER.getNumber() || number > MAX_NUMBER.getNumber()) {
                     throw LottoException.from(ErrorMessage.INVALID_LOTTO_RANGE);
                 }
             });

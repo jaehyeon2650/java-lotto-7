@@ -36,4 +36,8 @@ public enum Result {
     public int getMatchedCount() {
         return matchedCount;
     }
+
+    public boolean isBonus() {
+        return bonus;
+    }
 }
