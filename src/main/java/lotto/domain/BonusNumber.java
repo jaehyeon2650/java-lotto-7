@@ -7,6 +7,7 @@ public class BonusNumber {
     private final int number;
 
     public BonusNumber(int number) {
+        Validator.validate(number);
         this.number = number;
     }
 
