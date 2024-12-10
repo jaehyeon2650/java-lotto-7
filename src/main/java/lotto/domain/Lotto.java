@@ -1,5 +1,6 @@
 package lotto.domain;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,15 @@ public class Lotto {
 
     public boolean hasNumber(int number) {
         return numbers.contains(number);
+    }
+
+    public List<Integer> getNumbers() {
+        return Collections.unmodifiableList(numbers);
+    }
+
+    public int getMatchedCount(Lotto lotto) {
+        List<Integer> lottoNumbers = lotto.getNumbers();
+        return (int) lottoNumbers.stream().filter(this::hasNumber).count();
     }
 
     private static class Validator {
@@ -47,6 +57,4 @@ public class Lotto {
         }
 
     }
-
-    // TODO: 추가 기능 구현
 }
