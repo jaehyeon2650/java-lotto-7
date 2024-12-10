@@ -12,7 +12,7 @@ public class Lotto {
 
     public Lotto(List<Integer> numbers) {
         Validator.validate(numbers);
-        this.numbers = numbers;
+        this.numbers = numbers.stream().sorted().toList();
     }
 
     public boolean hasNumber(int number) {
