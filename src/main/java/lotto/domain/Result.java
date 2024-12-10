@@ -28,4 +28,12 @@ public enum Result {
                 result.check.test(matchedCount, bonus)
         ).findAny().orElse(NONE);
     }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public int getMatchedCount() {
+        return matchedCount;
+    }
 }
