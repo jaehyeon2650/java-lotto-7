@@ -13,4 +13,8 @@ public class Lottos {
     public List<Lotto> getLottos() {
         return Collections.unmodifiableList(lottos);
     }
+
+    public int count() {
+        return lottos.size();
+    }
 }
