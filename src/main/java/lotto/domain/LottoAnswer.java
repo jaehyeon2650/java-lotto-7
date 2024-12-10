@@ -8,9 +8,9 @@ public class LottoAnswer {
     private final Lotto lotto;
     private final BonusNumber bonusNumber;
 
-    public LottoAnswer(List<Integer> numbers, int bonusNumber) {
-        this.lotto = new Lotto(numbers);
-        this.bonusNumber = new BonusNumber(bonusNumber);
+    public LottoAnswer(Lotto lotto, BonusNumber bonusNumber) {
+        this.lotto = lotto;
+        this.bonusNumber = bonusNumber;
     }
 
     public Map<Result, Integer> lottoResult(Lottos lottos) {
